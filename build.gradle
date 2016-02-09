@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+
+//Creates a single fat/ uber Jar with all dependencies
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    manifest {
+        attributes 'Implementation-Title': 'spark-boilerplate',
+                   'Main-Class': 'com.channie.Service'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.sparkjava:spark-core:2.3'
+    compile 'com.sparkjava:spark-template-handlebars:2.3'
+    compile 'org.projectlombok:lombok:1.16.6'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.0' // For mapping object
+    compile 'com.google.code.gson:gson:2.5' // For mapping object
+    compile 'com.mashape.unirest:unirest-java:1.4.7'
+    compile 'org.apache.httpcomponents:httpclient:4.3.6' // unirest dependencies
+    compile 'org.apache.httpcomponents:httpasyncclient:4.0.2' // unirest dependencies
+    compile 'org.apache.httpcomponents:httpmime:4.3.6' // unirest dependencies
+    compile 'org.json:json:20140107' // unirest dependencies
+}
